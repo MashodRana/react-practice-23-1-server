@@ -42,7 +42,7 @@ async function run() {
 
     // Get a user
     app.get("/users/:profileId", async (req, res) => {
-      
+
       const profileId = req.params?.profileId;
       console.log(profileId)
       const query = { _id: ObjectId(profileId) };
@@ -51,24 +51,16 @@ async function run() {
     })
 
 
-    // Update an order
-    // app.put('/orders/:orderId', async (req, res) => {
-    //   const orderId = req.params?.orderId;
-    //   const query = { _id: ObjectId(orderId) };
-    //   const cursor = await ordersCollection.findOne(query);
-    //   let message = "";
-    //   if (cursor.status === 'shipped') {
-    //     message = "Already shipped!!!";
-    //   }
-    //   else {
-    //     const options = { $set: { status: 'shipped' } }
-    //     const cursor2 = await ordersCollection.updateOne(query, options);
-    //     message = "Product shipped."
-    //   }
+    // Update an user profile
+    app.put('/users/:profileId', async (req, res) => {
+      const profileId = req.params?.profileId;
+      const user = req.body;
+      const query = { _id: ObjectId(profileId) };
+      const options = { 'name': user.name, 'sector': user.sector };
+      const cursor2 = await userProfileCollection.updateOne(query, { $set: options });
+      res.json({ _id: profileId });
 
-    //   res.json({ message: message });
-
-    // });
+    });
 
 
   } finally {
